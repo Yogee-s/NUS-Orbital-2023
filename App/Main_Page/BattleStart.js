@@ -85,7 +85,6 @@ export default function BattlePage({navigation, route}) {
     const [isSlashing, setIsSlashing] = useState(false);
     const performSlashingAnimation = () => {
         const slashDuration = 1000; // Adjust duration as needed
-      
         setIsSlashing(true);
         setTimeout(() => setIsSlashing(false), slashDuration);
       };
@@ -355,12 +354,15 @@ export default function BattlePage({navigation, route}) {
             duration: 600,
             useNativeDriver: true,
           }),
+          Animated.delay(200), // Adjust the delay as needed
+        ]).start(() => {
+          performSlashingAnimation();
           Animated.timing(userIconAnim, {
             toValue: 0,
             duration: 200,
             useNativeDriver: true,
-          }),
-        ]).start();
+          }).start();
+        });
       };
       
       const animateFriendIcon = () => {
@@ -370,18 +372,17 @@ export default function BattlePage({navigation, route}) {
             duration: 600,
             useNativeDriver: true,
           }),
+          Animated.delay(200), // Adjust the delay as needed
+        ]).start(() => {
+          performSlashingAnimation();
           Animated.timing(friendIconAnim, {
             toValue: 0,
             duration: 200,
             useNativeDriver: true,
-          }),
-        ]).start();
+          }).start();
+        });
       };
       
-  
-
-        
-    
     return(
         <SafeAreaView style={styles.container}>
             <View style={styles.playersInfoContainer}>
@@ -610,7 +611,7 @@ export default function BattlePage({navigation, route}) {
                                         {
                                         translateY: friendIconAnim.interpolate({
                                             inputRange: [0, 1],
-                                            outputRange: [0, -20], // Adjust the value to control the movement distance
+                                            outputRange: [0, -20], 
                                         }),
                                         },
                                     ],
